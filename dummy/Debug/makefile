@@ -62,7 +62,7 @@ main-build: Flowerpot_Dummy.elf secondary-outputs
 
 # Tool invocations
 Flowerpot_Dummy.elf: $(OBJS) $(USER_OBJS) C:\fel\spd\kvetinac\LoRA_Flowerpot_Dummy\dummy\STM32L072CZYX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Flowerpot_Dummy.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"C:\fel\spd\kvetinac\LoRA_Flowerpot_Dummy\dummy\STM32L072CZYX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Flowerpot_Dummy.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "Flowerpot_Dummy.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"C:\fel\spd\kvetinac\LoRA_Flowerpot_Dummy\dummy\STM32L072CZYX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Flowerpot_Dummy.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

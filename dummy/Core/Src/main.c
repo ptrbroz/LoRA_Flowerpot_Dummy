@@ -22,7 +22,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
+#include "sht3x.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -98,6 +99,20 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   int ledVal = 0;
+
+  //set up sht library
+  sht3x_handle_t handle = {
+      .i2c_handle = &hi2c1,
+      .device_address = SHT3X_I2C_DEVICE_ADDRESS_ADDR_PIN_LOW
+  };
+  if (!sht3x_init(&handle)) {
+      printf("SHT3x access failed.\n\r");
+  }
+  // Enable heater for two seconds.
+  sht3x_set_header_enable(&handle, true);
+  HAL_Delay(2000);
+  sht3x_set_header_enable(&handle, false);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -114,7 +129,12 @@ int main(void)
 	HAL_ADC_PollForConversion(&hadc, 10);
 	uint16_t adcResult = HAL_ADC_GetValue(&hadc);
 
-	printf("Light sensor adc reads %d \n\r", adcResult);
+	//read temp/hum sensor
+	float temp, hum;
+	sht3x_read_temperature_and_humidity(&handle, &temp, &hum);
+
+	printf("Light adc : %d \n\r", adcResult);
+	printf("Temp %.2f, humidity %.2f \% \n\r", temp, hum);
 
     /* USER CODE END WHILE */
 
