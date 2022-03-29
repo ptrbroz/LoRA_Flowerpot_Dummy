@@ -19,7 +19,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include <stdio.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -108,14 +107,14 @@ int main(void)
 
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, ledVal);
 	ledVal = !ledVal;
-	HAL_Delay(1000);
-	printf("Oi\n\r");
+	HAL_Delay(100);
 
 	//read lightsensor adc
 	HAL_ADC_Start(&hadc);
 	HAL_ADC_PollForConversion(&hadc, 10);
 	uint16_t adcResult = HAL_ADC_GetValue(&hadc);
 
+	printf("Light sensor adc reads %d \n\r", adcResult);
 
     /* USER CODE END WHILE */
 
@@ -194,7 +193,7 @@ static void MX_ADC_Init(void)
   hadc.Init.OversamplingMode = DISABLE;
   hadc.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV1;
   hadc.Init.Resolution = ADC_RESOLUTION_12B;
-  hadc.Init.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+  hadc.Init.SamplingTime = ADC_SAMPLETIME_7CYCLES_5;
   hadc.Init.ScanConvMode = ADC_SCAN_DIRECTION_FORWARD;
   hadc.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc.Init.ContinuousConvMode = DISABLE;
